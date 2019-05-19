@@ -40,14 +40,20 @@ class App extends React.Component {
     return `https://itunes.apple.com/search?term=${encodedName}&entity=album`
   }
 
+  // sorts albums in reverse-chronological order,
+  // then returns only relevant fields
   trimResponse(res) {
-    const results = res.results;
+    const results = res.results.sort((a, b) => {
+      const dateA = new Date(a.releaseDate);
+      const dateB = new Date(b.releaseDate);
+      return dateB - dateA;
+    });
     return results.map((result) => {
+      const date = new Date(result.releaseDate);
       return {
         artistName: result.artistName,
         albumName: result.collectionName,
-        releaseDate: result.releaseDate,
-        albumArtUrl60: result.artworkUrl60,
+        releaseYear: date.getFullYear(),
         albumArtUrl100: result.artworkUrl100,
       }
     });
@@ -58,7 +64,7 @@ class App extends React.Component {
     const Discography = albums.map((album, index) => {
       return <ul key={index}>
         <h3>{album.albumName}</h3>
-        <h4>{album.releaseDate}</h4>
+        <h4>{album.releaseYear}</h4>
         <img src={album.albumArtUrl100} alt={album.albumName} />
       </ul>
     });
