@@ -54,6 +54,15 @@ class App extends React.Component {
   }
 
   render() {
+    const albums = this.state.albums;
+    const Discography = albums.map((album, index) => {
+      return <ul key={index}>
+        <h3>{album.albumName}</h3>
+        <h4>{album.releaseDate}</h4>
+        <img src={album.albumArtUrl100} alt={album.albumName} />
+      </ul>
+    });
+
     return(
       <div>
         <input
@@ -65,6 +74,9 @@ class App extends React.Component {
         >
           Submit
         </button>
+        <h1>{this.state.artistName}</h1>
+        <h2>{this.state.artistName ? 'Discography' : ''}</h2>
+        {Discography}
       </div>
     )
   }
