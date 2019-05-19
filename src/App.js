@@ -5,12 +5,21 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchText: '',
+      artistName: '',
+      albums: [],
     };
   }
 
   async handleSubmit() {
     console.log(`search query: ${this.state.searchText}`);
-    console.log(await this.getAlbums(this.state.searchText));
+    const res = await this.getAlbums(this.state.searchText);
+    console.log(`handleSubmit res:`);
+    console.log(res);
+    const data = this.trimResponse(res);
+    this.setState({
+      artistName: data[0].artistName,
+      albums: data,
+    });
   }
 
   handleChange(e) {
@@ -21,13 +30,27 @@ class App extends React.Component {
 
   async getAlbums(artistName) {
     const res = await fetch(this.getUrl(artistName));
-    return await res.json();
+    const data = await res.json();
+    return data;
   }
 
   getUrl(artistName) {
     const encodedName = encodeURI(artistName);
     console.log(`encodedName: ${encodedName}`)
     return `https://itunes.apple.com/search?term=${encodedName}&entity=album`
+  }
+
+  trimResponse(res) {
+    const results = res.results;
+    return results.map((result) => {
+      return {
+        artistName: result.artistName,
+        albumName: result.collectionName,
+        releaseDate: result.releaseDate,
+        albumArtUrl60: result.artworkUrl60,
+        albumArtUrl100: result.artworkUrl100,
+      }
+    });
   }
 
   render() {
