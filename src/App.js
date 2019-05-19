@@ -1,4 +1,5 @@
 import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import SearchForm from './components/SearchForm';
 import AlbumCard from './components/AlbumCard';
@@ -75,7 +76,8 @@ class App extends React.Component {
     });
 
     return(
-      <div>
+      <React.Fragment>
+        <CssBaseline />
         <SearchForm
           onChange = { e => this.handleChange(e) }
           onClick = { e => this.handleSubmit(e) }
@@ -85,8 +87,8 @@ class App extends React.Component {
         <ul>
           {Discography}
         </ul>
-      </div>
-    )
+      </ React.Fragment>
+    );
   }
 }
 
