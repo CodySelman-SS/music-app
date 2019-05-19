@@ -1,6 +1,7 @@
 import React from 'react';
 
-import SearchForm from './SearchForm';
+import SearchForm from './components/SearchForm';
+import AlbumCard from './components/AlbumCard';
 
 class App extends React.Component {
   constructor(props) {
@@ -65,11 +66,12 @@ class App extends React.Component {
   render() {
     const albums = this.state.albums;
     const Discography = albums.map((album, index) => {
-      return <ul key={index}>
-        <h3>{album.albumName}</h3>
-        <h4>{album.releaseYear}</h4>
-        <img src={album.albumArtUrl100} alt={album.albumName} />
-      </ul>
+      return <AlbumCard
+        key = {index}
+        albumName = {album.albumName}
+        releaseYear = {album.releaseYear}
+        imgSrc = {album.albumArtUrl100}
+      />
     });
 
     return(
@@ -80,7 +82,9 @@ class App extends React.Component {
         />
         <h1>{this.state.artistName}</h1>
         <h2>{this.state.artistName ? 'Discography' : ''}</h2>
-        {Discography}
+        <ul>
+          {Discography}
+        </ul>
       </div>
     )
   }
