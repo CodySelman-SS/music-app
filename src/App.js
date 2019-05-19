@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SearchForm from './SearchForm';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +12,8 @@ class App extends React.Component {
     };
   }
 
-  async handleSubmit() {
+  async handleSubmit(e) {
+    e.preventDefault();
     console.log(`search query: ${this.state.searchText}`);
     const res = await this.getAlbums(this.state.searchText);
     console.log(`handleSubmit res:`);
@@ -40,8 +43,8 @@ class App extends React.Component {
     return `https://itunes.apple.com/search?term=${encodedName}&entity=album`
   }
 
-  // sorts albums in reverse-chronological order,
-  // then returns only relevant fields
+  // sorts albums in reverse-chronological order, then returns only relevant fields
+  // TODO error handling for when results return multiple different artists
   trimResponse(res) {
     const results = res.results.sort((a, b) => {
       const dateA = new Date(a.releaseDate);
@@ -71,15 +74,10 @@ class App extends React.Component {
 
     return(
       <div>
-        <input
+        <SearchForm
           onChange = { e => this.handleChange(e) }
+          onClick = { e => this.handleSubmit(e) }
         />
-        <button
-          type = "submit"
-          onClick = {() => this.handleSubmit()}
-        >
-          Submit
-        </button>
         <h1>{this.state.artistName}</h1>
         <h2>{this.state.artistName ? 'Discography' : ''}</h2>
         {Discography}
