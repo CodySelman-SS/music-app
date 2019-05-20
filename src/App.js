@@ -83,9 +83,7 @@ class App extends React.Component {
         />
         <h1>{this.state.artistName}</h1>
         <h2>{this.state.artistName ? 'Discography' : ''}</h2>
-        <ul>
-          {Discography}
-        </ul>
+        {Discography}
       </ React.Fragment>
     );
   }

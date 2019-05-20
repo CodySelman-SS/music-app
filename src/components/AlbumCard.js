@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   card: {
     display: 'flex',
+    margin: '8px',
     backgroundColor: '#e5dcdb',
     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23aca192' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E")`,
   },
@@ -43,6 +44,11 @@ const AlbumCard = props => {
 
   return(
     <Card className={classes.card}>
+      <CardMedia
+        className={classes.cover}
+        image={props.imgSrc}
+        title={props.albumName}
+      />
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h5" variant="h5">
@@ -64,11 +70,6 @@ const AlbumCard = props => {
           </IconButton>
         </div> */}
       </div>
-      <CardMedia
-        className={classes.cover}
-        image={props.imgSrc}
-        title={props.albumName}
-      />
     </Card>
   );
 }
