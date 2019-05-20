@@ -15,10 +15,7 @@ class App extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    console.log(`search query: ${this.state.searchText}`);
     const res = await this.getAlbums(this.state.searchText);
-    console.log(`handleSubmit res:`);
-    console.log(res);
     const data = this.formatResponse(res);
     this.setState({
       artistName: data[0].artistName,
@@ -40,7 +37,6 @@ class App extends React.Component {
 
   getUrl(artistName) {
     const encodedName = encodeURI(artistName);
-    console.log(`encodedName: ${encodedName}`)
     return `https://itunes.apple.com/search?term=${encodedName}&entity=album`
   }
 
