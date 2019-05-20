@@ -40,7 +40,9 @@ const styles = theme => ({
 });
 
 const AlbumCard = props => {
-  const { classes, theme } = props;
+  const { classes,
+    // theme
+  } = props;
 
   return(
     <Card className={classes.card}>
