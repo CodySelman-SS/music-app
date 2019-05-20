@@ -1,8 +1,7 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import SearchForm from './components/SearchForm';
-import AlbumCard from './components/AlbumCard';
+import { SearchForm, AlbumCard } from './components/';
 
 class App extends React.Component {
   constructor(props) {
