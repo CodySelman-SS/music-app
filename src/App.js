@@ -19,7 +19,7 @@ class App extends React.Component {
     const res = await this.getAlbums(this.state.searchText);
     console.log(`handleSubmit res:`);
     console.log(res);
-    const data = this.trimResponse(res);
+    const data = this.formatResponse(res);
     this.setState({
       artistName: data[0].artistName,
       albums: data,
@@ -44,14 +44,8 @@ class App extends React.Component {
     return `https://itunes.apple.com/search?term=${encodedName}&entity=album`
   }
 
-  // sorts albums in reverse-chronological order, then returns only relevant fields
-  // TODO error handling for when results return multiple different artists
-  trimResponse(res) {
-    const results = res.results.sort((a, b) => {
-      const dateA = new Date(a.releaseDate);
-      const dateB = new Date(b.releaseDate);
-      return dateB - dateA;
-    });
+  formatResponse(res) {
+    const results = this.sortByDate(res);
     return results.map((result) => {
       const date = new Date(result.releaseDate);
       return {
@@ -60,6 +54,14 @@ class App extends React.Component {
         releaseYear: date.getFullYear(),
         albumArtUrl100: result.artworkUrl100,
       }
+    });
+  }
+
+  sortByDate(res) {
+    return res.results.sort((a, b) => {
+      const dateA = new Date(a.releaseDate);
+      const dateB = new Date(b.releaseDate);
+      return dateB - dateA;
     });
   }
 
@@ -81,8 +83,10 @@ class App extends React.Component {
           onChange = { e => this.handleChange(e) }
           onClick = { e => this.handleSubmit(e) }
         />
-        <h1>{this.state.artistName}</h1>
-        <h2>{this.state.artistName ? 'Discography' : ''}</h2>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+          <h1>{this.state.artistName}</h1>
+          <h2>{this.state.artistName ? 'Discography' : ''}</h2>
+        </div>
         {Discography}
       </ React.Fragment>
     );
