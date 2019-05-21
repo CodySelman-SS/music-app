@@ -83,10 +83,25 @@ class App extends React.Component {
           updatedAlbum,
           ...after
         ],
-      });
+      }, this.toggleTrackList(index));
     }
-    // if the track list is not displayed, display it
-    // if the track list is displayed, hide it
+  }
+
+  toggleTrackList(index) {
+    const before = this.state.albums.slice(0, index);
+    const after = this.state.albums.slice(index + 1);
+    const album = this.state.albums[index];
+    const toggledAlbum = {
+      ...album,
+      handleToggleTrackList: !this.state.albums[index].trackListToggled,
+    }
+    this.setState({
+      albums: [
+        ...before,
+        toggledAlbum,
+        ...after,
+      ],
+    });
   }
 
   async getTrackList(albumId) {
