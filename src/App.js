@@ -12,6 +12,7 @@ class App extends React.Component {
       artistName: '',
       albums: [],
     };
+    this.handleToggleTrackList = this.handleToggleTrackList.bind(this);
   }
 
   async handleSubmit(e) {
@@ -65,13 +66,20 @@ class App extends React.Component {
     });
   }
 
-  handleToggleTrackList() {
-    console.log(this.albumId);
+  async handleToggleTrackList(index) {
+    const res = await this.getTrackList(this.state.albums[index].albumId);
+    const data = this.formatTrackListRes(res);
+    console.log(data);
+
+    // if there is no track list data for this album, perform a request and get the data
+    // if the track list is not displayed, display it
+    // if the track list is displayed, hide it
   }
 
   async getTrackList(albumId) {
     const res = await fetch(this.getTrackListUrl(albumId));
-
+    const data = await res.json();
+    return data;
   }
 
   getTrackListUrl(albumId) {
@@ -79,9 +87,26 @@ class App extends React.Component {
   }
 
   formatTrackListRes(res) {
-    // remove anything that's not a song
-    // sort by track#
-    // return only necessary data
+    const results = res.results;
+    const tracks = results.filter(result => result.wrapperType === 'track');
+    const orderedTracks = this.sortByTrackNumber(tracks);
+    console.log(orderedTracks);
+    return orderedTracks.map(track => {
+      return {
+        name: track.trackName,
+        preview: track.previewUrl,
+        lengthInMs: track.trackTimeMillis,
+        trackNumber: track.trackNumber,
+      }
+    });
+  }
+
+  sortByTrackNumber(tracks) {
+    return tracks.sort((a, b) => {
+      const trackA = a.trackNumber;
+      const trackB = b.trackNumber;
+      return trackA - trackB;
+    });
   }
 
   render() {
@@ -89,10 +114,10 @@ class App extends React.Component {
     const Discography = albums.map((album, index) => {
       return <AlbumCard
         key = {index}
+        index = {index}
         albumName = {album.albumName}
         releaseYear = {album.releaseYear}
         imgSrc = {album.albumArt}
-        albumId = {album.albumId}
         trackList = {album.trackList}
         trackListToggled = {album.trackListToggled}
         onClick = {this.handleToggleTrackList}

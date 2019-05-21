@@ -49,7 +49,7 @@ const AlbumCard = props => {
           </Typography>
         </CardContent>
       </div>
-      <IconButton onClick={e => props.onClick(e)}>
+      <IconButton onClick={() => {props.onClick(props.index)}}>
           <ExpandMoreIcon />
       </IconButton>
       {/* TrackList component */}
@@ -62,7 +62,7 @@ AlbumCard.propTypes = {
   releaseYear: PropTypes.number.isRequired,
   imgSrc: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  albumId: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   trackList: PropTypes.array.isRequired,
   trackListToggled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
