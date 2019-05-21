@@ -63,6 +63,7 @@ const AlbumCard = props => {
         <TrackList
           trackListToggled = {props.trackListToggled}
           trackList = {props.trackList}
+          onPlayClick = {props.onPlayClick}
         />
         : ''
       }
@@ -80,6 +81,7 @@ AlbumCard.propTypes = {
   trackList: PropTypes.array.isRequired,
   trackListToggled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
+  onPlayClick: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles, { withTheme: true })(AlbumCard);

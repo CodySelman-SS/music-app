@@ -51,6 +51,7 @@ const TrackList = props => {
       name={track.name}
       trackNumber={track.trackNumber}
       preview={track.preview}
+      onPlayClick={props.onPlayClick}
     />
   });
 
@@ -80,6 +81,7 @@ TrackList.propTypes = {
   theme: PropTypes.object.isRequired,
   trackListToggled: PropTypes.bool.isRequired,
   trackList: PropTypes.array.isRequired,
+  onPlayClick: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles, {withTheme: true })(TrackList);

@@ -62,7 +62,7 @@ const Track = props => {
       </div>
 
         <div className={classes.controls}>
-          <IconButton aria-label="Play/pause">
+          <IconButton aria-label="Play/pause" onClick={() => {props.onPlayClick(props.preview)}}>
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
         </div>
@@ -77,6 +77,7 @@ Track.propTypes = {
   lengthInMs: PropTypes.number.isRequired,
   trackNumber: PropTypes.number.isRequired,
   preview: PropTypes.string.isRequired,
+  onPlayClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(Track);

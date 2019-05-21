@@ -137,6 +137,11 @@ class App extends React.Component {
     });
   }
 
+  handlePlayClick(src) {
+    const audio = new Audio(src);
+    audio.play();
+  }
+
   render() {
     const albums = this.state.albums;
     const Discography = albums.map((album, index) => {
@@ -149,6 +154,7 @@ class App extends React.Component {
         trackList = {album.trackList}
         trackListToggled = {album.trackListToggled}
         onClick = {this.handleToggleTrackList}
+        onPlayClick = {this.handlePlayClick}
       />
     });
 
