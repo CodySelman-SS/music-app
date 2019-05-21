@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TrackList from './TrackList';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,6 +12,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const styles = theme => ({
   card: {
     display: 'flex',
+    justifyContent: 'space-between',
     margin: '8px',
     width: '600px',
     maxWidth: '90%',
@@ -27,33 +29,38 @@ const styles = theme => ({
   cover: {
     width: 100,
   },
+  textCenter: {
+    textAlign: 'center',
+  }
 });
 
 const AlbumCard = props => {
   const { classes } = props;
 
   return(
-    <Card className={classes.card}>
-      <CardMedia
-        className={classes.cover}
-        image={props.imgSrc}
-        title={props.albumName}
-      />
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            { props.albumName }
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            { props.releaseYear }
-          </Typography>
-        </CardContent>
-      </div>
-      <IconButton onClick={() => {props.onClick(props.index)}}>
-          <ExpandMoreIcon />
-      </IconButton>
-      {/* TrackList component */}
-    </Card>
+    <React.Fragment>
+      <Card className={classes.card}>
+        <CardMedia
+          className={classes.cover}
+          image={props.imgSrc}
+          title={props.albumName}
+        />
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h5" variant="h5">
+              { props.albumName }
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary" className={classes.textCenter}>
+              { props.releaseYear }
+            </Typography>
+          </CardContent>
+        </div>
+        <IconButton onClick={() => {props.onClick(props.index)}}>
+            <ExpandMoreIcon />
+        </IconButton>
+      </Card>
+      <TrackList />
+    </ React.Fragment>
   );
 }
 
