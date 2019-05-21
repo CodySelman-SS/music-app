@@ -67,11 +67,24 @@ class App extends React.Component {
   }
 
   async handleToggleTrackList(index) {
-    const res = await this.getTrackList(this.state.albums[index].albumId);
-    const data = this.formatTrackListRes(res);
-    console.log(data);
-
-    // if there is no track list data for this album, perform a request and get the data
+    if (this.state.albums[index].trackList.length === 0) {
+      const res = await this.getTrackList(this.state.albums[index].albumId);
+      const data = this.formatTrackListRes(res);
+      const before = this.state.albums.slice(0, index);
+      const after = this.state.albums.slice(index + 1);
+      const album = this.state.albums[index];
+      const updatedAlbum = {
+        ...album,
+        trackList: data,
+      }
+      this.setState({
+        albums: [
+          ...before,
+          updatedAlbum,
+          ...after
+        ],
+      });
+    }
     // if the track list is not displayed, display it
     // if the track list is displayed, hide it
   }
@@ -90,7 +103,6 @@ class App extends React.Component {
     const results = res.results;
     const tracks = results.filter(result => result.wrapperType === 'track');
     const orderedTracks = this.sortByTrackNumber(tracks);
-    console.log(orderedTracks);
     return orderedTracks.map(track => {
       return {
         name: track.trackName,
