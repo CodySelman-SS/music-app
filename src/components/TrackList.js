@@ -47,6 +47,8 @@ const TrackList = props => {
   const { classes } = props;
   const tracks = props.trackList.map((track, index) => {
     return <Track key={index}
+      index={index}
+      albumIndex={props.albumIndex}
       lengthInMs={track.lengthInMs}
       name={track.name}
       trackNumber={track.trackNumber}
@@ -82,6 +84,7 @@ TrackList.propTypes = {
   trackListToggled: PropTypes.bool.isRequired,
   trackList: PropTypes.array.isRequired,
   onPlayClick: PropTypes.func.isRequired,
+  albumIndex: PropTypes.number.isRequired,
 }
 
 export default withStyles(styles, {withTheme: true })(TrackList);

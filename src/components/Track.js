@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 
 const styles = theme => ({
   card: {
@@ -38,41 +39,64 @@ const styles = theme => ({
   },
 });
 
-const Track = props => {
-  const { classes } = props;
-  const lengthInS = props.lengthInMs / 1000;
-  const minutes = Math.floor(lengthInS / 60);
-  const seconds = Math.floor(lengthInS % 60);
-  const secondsFormatted = seconds >= 10 ? seconds : `0${seconds}`;
-  const lengthFormatted = `${minutes}: ${secondsFormatted}`;
+class Track extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPlaying: false,
+    }
+  }
 
-  return (
-    <Card className={classes.card}>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h6" variant="h6">
-            {`${props.trackNumber}. ${props.name}`}
-          </Typography>
-        </CardContent>
-        <CardContent className={classes.content}>
-          <Typography variant="subtitle1" color="textSecondary">
-            {lengthFormatted}
-          </Typography>
-        </CardContent>
-      </div>
+  handlePlayClick(audioRef) {
+    this.props.onPlayClick(audioRef);
+    this.setState({
+      isPlaying: !this.state.isPlaying,
+    });
+  }
 
-        <div className={classes.controls}>
-          <IconButton aria-label="Play/pause" onClick={() => {props.onPlayClick(props.preview)}}>
-            <PlayArrowIcon className={classes.playIcon} />
-          </IconButton>
+  render() {
+    const { classes } = this.props;
+    const lengthInS = this.props.lengthInMs / 1000;
+    const minutes = Math.floor(lengthInS / 60);
+    const seconds = Math.floor(lengthInS % 60);
+    const secondsFormatted = seconds >= 10 ? seconds : `0${seconds}`;
+    const lengthFormatted = `${minutes}: ${secondsFormatted}`;
+    const audioRef = React.createRef();
+
+    return (
+      <Card className={classes.card}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h6" variant="h6">
+              {`${this.props.trackNumber}. ${this.props.name}`}
+            </Typography>
+          </CardContent>
+          <CardContent className={classes.content}>
+            <Typography variant="subtitle1" color="textSecondary">
+              {lengthFormatted}
+            </Typography>
+          </CardContent>
         </div>
-    </Card>
-  );
+          <div className={classes.controls}>
+            <IconButton aria-label="Play/pause" onClick={() => {this.handlePlayClick(audioRef)}}>
+              { this.state.isPlaying ?
+                  <PauseIcon className={classes.playIcon} />
+                  :
+                  <PlayArrowIcon className={classes.playIcon} />
+              }
+            </IconButton>
+            <audio src={this.props.preview} ref={audioRef}/>
+          </div>
+      </Card>
+    );
+  }
 }
 
 Track.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  albumIndex: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   lengthInMs: PropTypes.number.isRequired,
   trackNumber: PropTypes.number.isRequired,

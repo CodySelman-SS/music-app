@@ -11,8 +11,10 @@ class App extends React.Component {
       searchText: '',
       artistName: '',
       albums: [],
+      currentlyPlayingSong: null,
     };
     this.handleToggleTrackList = this.handleToggleTrackList.bind(this);
+    this.handlePlayClick = this.handlePlayClick.bind(this);
   }
 
   async handleSubmit(e) {
@@ -137,9 +139,28 @@ class App extends React.Component {
     });
   }
 
-  handlePlayClick(src) {
-    const audio = new Audio(src);
-    audio.play();
+  handlePlayClick(audioRef) {
+    const newTrack = audioRef.current;
+    const oldTrack = this.state.currentlyPlayingSong;
+    if (oldTrack && oldTrack !== newTrack) {
+      oldTrack.currentTime = 0;
+    }
+    if (oldTrack && oldTrack === newTrack) {
+      if (oldTrack.paused) {
+        oldTrack.play()
+      } else {
+        oldTrack.pause();
+      }
+    }
+    if (oldTrack !== newTrack) {
+      if (oldTrack) {
+        oldTrack.pause();
+      }
+      newTrack.play();
+    }
+    this.setState({
+      currentlyPlayingSong: newTrack,
+    });
   }
 
   render() {

@@ -64,6 +64,7 @@ const AlbumCard = props => {
           trackListToggled = {props.trackListToggled}
           trackList = {props.trackList}
           onPlayClick = {props.onPlayClick}
+          albumIndex = {props.index}
         />
         : ''
       }
