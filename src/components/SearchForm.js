@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -34,26 +33,20 @@ const SearchForm = props => {
   const { classes } = props;
 
   return(
-    <Grid
-      container
-      justify='center'
-      alignItems='center'
-    >
-      <Paper className={classes.root} elevation={1}>
-        <InputBase
-          className={classes.input}
-          placeholder="Search Artist Name"
-          onChange = { e => props.onChange(e) }
-        />
-        <IconButton
-          className={classes.iconButton}
-          aria-label="Search"
-          onClick = { e => props.onClick(e) }
-        >
-          <SearchIcon />
-        </IconButton>
-      </Paper>
-    </Grid>
+    <Paper className={classes.root} elevation={1}>
+      <InputBase
+        className={classes.input}
+        placeholder="Search Artist Name"
+        onChange = { e => props.onChange(e) }
+      />
+      <IconButton
+        className={classes.iconButton}
+        aria-label="Search"
+        onClick = { e => props.onClick(e) }
+      >
+        <SearchIcon />
+      </IconButton>
+    </Paper>
   );
 }
 

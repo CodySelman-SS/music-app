@@ -1,7 +1,8 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { SearchForm, AlbumCard } from './components/';
+import { AlbumCard, Header, SearchForm } from './components/';
 
 class App extends React.Component {
   constructor(props) {
@@ -75,16 +76,20 @@ class App extends React.Component {
     return(
       <React.Fragment>
         <CssBaseline />
-        <SearchForm
-          onChange = { e => this.handleChange(e) }
-          onClick = { e => this.handleSubmit(e) }
-        />
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-          <h1>{this.state.artistName}</h1>
-          <h2>{this.state.artistName ? 'Discography' : ''}</h2>
-        </div>
-        {Discography}
-      </ React.Fragment>
+        <Grid container
+        justify='center'
+        alignItems='center'
+        direction='column'>
+          <SearchForm
+            onChange = { e => this.handleChange(e) }
+            onClick = { e => this.handleSubmit(e) }
+          />
+          <Header
+            artistName={this.state.artistName}
+          />
+          {Discography}
+        </Grid>
+      </React.Fragment>
     );
   }
 }
