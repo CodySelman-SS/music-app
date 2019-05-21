@@ -59,10 +59,14 @@ const AlbumCard = props => {
             <ExpandMoreIcon />
         </IconButton>
       </Card>
-      <TrackList
-        trackListToggled = {props.trackListToggled}
-        trackList = {props.trackList}
-      />
+      {props.trackListToggled ?
+        <TrackList
+          trackListToggled = {props.trackListToggled}
+          trackList = {props.trackList}
+        />
+        : ''
+      }
+
     </ React.Fragment>
   );
 }

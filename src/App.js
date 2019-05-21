@@ -83,8 +83,9 @@ class App extends React.Component {
           updatedAlbum,
           ...after
         ],
-      }, this.toggleTrackList(index));
+      });
     }
+    this.toggleTrackList(index)
   }
 
   toggleTrackList(index) {
@@ -93,7 +94,7 @@ class App extends React.Component {
     const album = this.state.albums[index];
     const toggledAlbum = {
       ...album,
-      handleToggleTrackList: !this.state.albums[index].trackListToggled,
+      trackListToggled: !this.state.albums[index].trackListToggled,
     }
     this.setState({
       albums: [

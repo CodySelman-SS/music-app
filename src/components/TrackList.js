@@ -44,7 +44,7 @@ const styles = theme => ({
 });
 
 const TrackList = props => {
-  const { classes, theme } = props;
+  const { classes } = props;
   const tracks = props.trackList.map((track, index) => {
     return <Track key={index}
       lengthInMs={track.lengthInMs}
