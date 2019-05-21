@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Track from './Track';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -38,6 +39,15 @@ const styles = theme => ({
 
 const TrackList = props => {
   const { classes, theme } = props;
+  const tracks = props.trackList.map((track, index) => {
+    return <Track key={index}
+      lengthInMs={track.lengthInMs}
+      name={track.name}
+      trackNumber={track.trackNumber}
+      preview={track.preview}
+    />
+  });
+
 
   return (
     <Card className={classes.card}>
@@ -46,6 +56,7 @@ const TrackList = props => {
           <Typography component="h6" variant="h6">
             Track List
           </Typography>
+          {tracks}
         </CardContent>
       </div>
     </Card>
@@ -55,6 +66,8 @@ const TrackList = props => {
 TrackList.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  trackListToggled: PropTypes.bool.isRequired,
+  trackList: PropTypes.array.isRequired,
 }
 
 export default withStyles(styles, {withTheme: true })(TrackList);

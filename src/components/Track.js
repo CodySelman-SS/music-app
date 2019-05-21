@@ -13,10 +13,14 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 const styles = theme => ({
   card: {
     display: 'flex',
+    justifyContent: 'space-between',
+    width: '540px',
+    maxWidth: '90%',
+    backgroundColor: '#e5dbe4',
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='32' viewBox='0 0 16 32'%3E%3Cg fill='%23ac92aa' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 24h4v2H0v-2zm0 4h6v2H0v-2zm0-8h2v2H0v-2zM0 0h4v2H0V0zm0 4h2v2H0V4zm16 20h-6v2h6v-2zm0 4H8v2h8v-2zm0-8h-4v2h4v-2zm0-20h-6v2h6V0zm0 4h-4v2h4V4zm-2 12h2v2h-2v-2zm0-8h2v2h-2V8zM2 8h10v2H2V8zm0 8h10v2H2v-2zm-2-4h14v2H0v-2zm4-8h6v2H4V4zm0 16h6v2H4v-2zM6 0h2v2H6V0zm0 24h2v2H6v-2z'/%3E%3C/g%3E%3C/svg%3E")`,
   },
   details: {
     display: 'flex',
-    flexDirection: 'column',
   },
   content: {
     flex: '1 0 auto',
@@ -38,35 +42,32 @@ const styles = theme => ({
 
 const Track = props => {
   const { classes, theme } = props;
+  const lengthInS = props.lengthInMs / 1000;
+  const minutes = Math.floor(lengthInS / 60);
+  const seconds = Math.floor(lengthInS % 60);
+  const secondsFormatted = seconds >= 10 ? seconds : `0${seconds}`;
+  const lengthFormatted = `${minutes}: ${secondsFormatted}`;
 
   return (
     <Card className={classes.card}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h5" variant="h5">
-            Live From Space
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Mac Miller
+            {`${props.trackNumber}. ${props.name}`}
           </Typography>
         </CardContent>
+        <CardContent className={classes.content}>
+          <Typography variant="subtitle1" color="textSecondary">
+            {lengthFormatted}
+          </Typography>
+        </CardContent>
+      </div>
+
         <div className={classes.controls}>
-          <IconButton aria-label="Previous">
-            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-          </IconButton>
           <IconButton aria-label="Play/pause">
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
-          <IconButton aria-label="Next">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-          </IconButton>
         </div>
-      </div>
-      <CardMedia
-        className={classes.cover}
-        image="/static/images/cards/live-from-space.jpg"
-        title="Live from space album cover"
-      />
     </Card>
   );
 }
@@ -74,6 +75,10 @@ const Track = props => {
 Track.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  lengthInMs: PropTypes.number.isRequired,
+  trackNumber: PropTypes.number.isRequired,
+  preview: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(Track);
