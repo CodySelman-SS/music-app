@@ -5,6 +5,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => ({
   card: {
@@ -24,16 +26,6 @@ const styles = theme => ({
   },
   cover: {
     width: 100,
-  },
-  controls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
   },
 });
 
@@ -57,6 +49,10 @@ const AlbumCard = props => {
           </Typography>
         </CardContent>
       </div>
+      <IconButton onClick={e => props.onClick(e)}>
+          <ExpandMoreIcon />
+      </IconButton>
+      {/* TrackList component */}
     </Card>
   );
 }
@@ -66,6 +62,10 @@ AlbumCard.propTypes = {
   releaseYear: PropTypes.number.isRequired,
   imgSrc: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  albumId: PropTypes.number.isRequired,
+  trackList: PropTypes.array.isRequired,
+  trackListToggled: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles, { withTheme: true })(AlbumCard);

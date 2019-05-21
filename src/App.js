@@ -17,7 +17,7 @@ class App extends React.Component {
   async handleSubmit(e) {
     e.preventDefault();
     const res = await this.getAlbums(this.state.searchText);
-    const data = this.formatResponse(res);
+    const data = this.formatAlbumSearchRes(res);
     this.setState({
       artistName: this.state.searchText,
       albums: data,
@@ -31,17 +31,17 @@ class App extends React.Component {
   }
 
   async getAlbums(artistName) {
-    const res = await fetch(this.getUrl(artistName));
+    const res = await fetch(this.getAlbumSearchUrl(artistName));
     const data = await res.json();
     return data;
   }
 
-  getUrl(artistName) {
+  getAlbumSearchUrl(artistName) {
     const encodedName = encodeURI(artistName);
     return `https://itunes.apple.com/search?term=${encodedName}&entity=album`
   }
 
-  formatResponse(res) {
+  formatAlbumSearchRes(res) {
     const results = this.sortByDate(res);
     return results.map((result) => {
       const date = new Date(result.releaseDate);
@@ -49,7 +49,10 @@ class App extends React.Component {
         artistName: result.artistName,
         albumName: result.collectionName,
         releaseYear: date.getFullYear(),
-        albumArtUrl100: result.artworkUrl100,
+        albumArt: result.artworkUrl100,
+        albumId: result.collectionId,
+        trackList: [],
+        trackListToggled: false,
       }
     });
   }
@@ -62,6 +65,25 @@ class App extends React.Component {
     });
   }
 
+  handleToggleTrackList() {
+    console.log(this.albumId);
+  }
+
+  async getTrackList(albumId) {
+    const res = await fetch(this.getTrackListUrl(albumId));
+
+  }
+
+  getTrackListUrl(albumId) {
+    return `https://itunes.apple.com/lookup?id=${albumId}&entity=song`;
+  }
+
+  formatTrackListRes(res) {
+    // remove anything that's not a song
+    // sort by track#
+    // return only necessary data
+  }
+
   render() {
     const albums = this.state.albums;
     const Discography = albums.map((album, index) => {
@@ -69,7 +91,11 @@ class App extends React.Component {
         key = {index}
         albumName = {album.albumName}
         releaseYear = {album.releaseYear}
-        imgSrc = {album.albumArtUrl100}
+        imgSrc = {album.albumArt}
+        albumId = {album.albumId}
+        trackList = {album.trackList}
+        trackListToggled = {album.trackListToggled}
+        onClick = {this.handleToggleTrackList}
       />
     });
 
@@ -77,9 +103,10 @@ class App extends React.Component {
       <React.Fragment>
         <CssBaseline />
         <Grid container
-        justify='center'
-        alignItems='center'
-        direction='column'>
+          justify='center'
+          alignItems='center'
+          direction='column'
+        >
           <SearchForm
             onChange = { e => this.handleChange(e) }
             onClick = { e => this.handleSubmit(e) }
