@@ -24,6 +24,7 @@ const styles = theme => ({
   },
   content: {
     flex: '1 0 auto',
+    maxWidth: '360px',
   },
   cover: {
     width: 151,
@@ -52,7 +53,7 @@ const Track = props => {
     <Card className={classes.card}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
+          <Typography component="h6" variant="h6">
             {`${props.trackNumber}. ${props.name}`}
           </Typography>
         </CardContent>

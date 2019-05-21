@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   card: {
@@ -18,9 +19,14 @@ const styles = theme => ({
   details: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   content: {
     flex: '1 0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   cover: {
     width: 151,
@@ -50,16 +56,22 @@ const TrackList = props => {
 
 
   return (
-    <Card className={classes.card}>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h6" variant="h6">
-            Track List
-          </Typography>
-          {tracks}
-        </CardContent>
-      </div>
-    </Card>
+    <Grid container
+      justify='center'
+      alignItems='center'
+      direction='column'
+    >
+      <Card className={classes.card}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h6" variant="h6">
+              Track List
+            </Typography>
+            {tracks}
+          </CardContent>
+        </div>
+      </Card>
+    </Grid>
   );
 }
 
