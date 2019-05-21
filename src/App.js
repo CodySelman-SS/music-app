@@ -18,7 +18,7 @@ class App extends React.Component {
     const res = await this.getAlbums(this.state.searchText);
     const data = this.formatResponse(res);
     this.setState({
-      artistName: data[0].artistName,
+      artistName: this.state.searchText,
       albums: data,
     });
   }
